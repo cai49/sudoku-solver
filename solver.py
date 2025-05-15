@@ -24,7 +24,9 @@ model = load_model(args["model"])
 
 # load the input image from disk and resize it
 print("[INFO] processing image...")
+kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
 image = cv2.imread(args["image"])
+image = cv2.filter2D(image, -1, kernel)
 image = imutils.resize(image, width=600)
 
 # find the puzzle in the image and then
@@ -104,8 +106,9 @@ for (cellRow, boardRow) in zip(cellLocs, solution.board):
         textY += endY
 
         # draw the result digit on the Sudoku puzzle image
-        cv2.putText(puzzleImage, str(digit), (textX, textY),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
+        if digit:
+            cv2.putText(puzzleImage, str(digit), (textX, textY),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
 
 # show the output image
 cv2.imshow("Sudoku Result", puzzleImage)

@@ -7,9 +7,9 @@ from sklearn.metrics import classification_report
 
 # initialize the initial learning rate, number of epochs to train
 # for, and batch size
-INIT_LR = 1e-3
-EPOCHS = 15
-BS = 128
+INIT_LR = 0.8e-3
+EPOCHS = 50
+BS = 256
 
 # grab the MNIST dataset
 print("[INFO] accessing MNIST...")
