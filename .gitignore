@@ -1,1 +1,6 @@
-\build
+build/
+bin/
+lib/
+include/
+*.cfg
+*__pycache__/

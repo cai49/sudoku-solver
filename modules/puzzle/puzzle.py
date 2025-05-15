@@ -77,14 +77,9 @@ def find_puzzle(image, debug=False):
 def extract_digit(cell, debug=False):
     # apply automatic thresholding to the cell and then clear any
     # connected borders that touch the border of the cell
-    thresh = cv2.threshold(cell, 0, 255,
+    thresh = cv2.threshold(cell, 10, 255,
                            cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
     thresh = clear_border(thresh)
-
-    # check to see if we are visualizing the cell thresholding step
-    if debug:
-        cv2.imshow("Cell Thresh", thresh)
-        cv2.waitKey(0)
 
     # find contours in the thresholded cell
     cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
@@ -116,6 +111,7 @@ def extract_digit(cell, debug=False):
 
     # check to see if we should visualize the masking step
     if debug:
+        cv2.imshow("Cell Thresh", thresh)
         cv2.imshow("Digit", digit)
         cv2.waitKey(0)
 
