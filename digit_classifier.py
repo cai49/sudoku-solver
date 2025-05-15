@@ -1,21 +1,14 @@
 # import the necessary packages
-from neural_network import *
+from modules.neural_network.neural_network import SudokuNet
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.datasets import mnist
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
-import argparse
-
-# construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-m", "--model", required=True,
-                help="path to output model after training")
-args = vars(ap.parse_args())
 
 # initialize the initial learning rate, number of epochs to train
 # for, and batch size
 INIT_LR = 1e-3
-EPOCHS = 10
+EPOCHS = 15
 BS = 128
 
 # grab the MNIST dataset
@@ -37,7 +30,7 @@ testLabels = le.transform(testLabels)
 
 # initialize the optimizer and model
 print("[INFO] compiling model...")
-opt = Adam(lr=INIT_LR)
+opt = Adam(learning_rate=INIT_LR)
 model = SudokuNet.build(width=28, height=28, depth=1, classes=10)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
               metrics=["accuracy"])
@@ -61,4 +54,4 @@ print(classification_report(
 
 # serialize the model to disk
 print("[INFO] serializing digit model...")
-model.save(args["model"], save_format="h5")
+model.save("build/classifier.h5")
