@@ -77,7 +77,7 @@ def find_puzzle(image, debug=False):
 def extract_digit(cell, debug=False):
     # apply automatic thresholding to the cell and then clear any
     # connected borders that touch the border of the cell
-    thresh = cv2.threshold(cell, 0, 255,
+    thresh = cv2.threshold(cell, 10, 255,
                            cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
     thresh = clear_border(thresh)
 

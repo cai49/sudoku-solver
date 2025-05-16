@@ -5,15 +5,22 @@ from tensorflow.keras.datasets import mnist
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
 
+def remove(digit, x, y):
+    idx = (y != digit).nonzero()
+    return x[idx], y[idx]
+
 # initialize the initial learning rate, number of epochs to train
 # for, and batch size
-INIT_LR = 0.8e-3
-EPOCHS = 50
-BS = 256
+INIT_LR = 1e-3
+EPOCHS = 30
+BS = 128
 
 # grab the MNIST dataset
 print("[INFO] accessing MNIST...")
 ((trainData, trainLabels), (testData, testLabels)) = mnist.load_data()
+
+trainData, trainLabels = remove(0, trainData, trainLabels)
+testData, testLabels = remove(0, testData, testLabels)
 
 # add a channel (i.e., grayscale) dimension to the digits
 trainData = trainData.reshape((trainData.shape[0], 28, 28, 1))
@@ -31,7 +38,7 @@ testLabels = le.transform(testLabels)
 # initialize the optimizer and model
 print("[INFO] compiling model...")
 opt = Adam(learning_rate=INIT_LR)
-model = SudokuNet.build(width=28, height=28, depth=1, classes=10)
+model = SudokuNet.build(width=28, height=28, depth=1, classes=9)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
               metrics=["accuracy"])
 
@@ -54,4 +61,4 @@ print(classification_report(
 
 # serialize the model to disk
 print("[INFO] serializing digit model...")
-model.save("build/classifier.h5")
+model.save("build/classifier.keras")
