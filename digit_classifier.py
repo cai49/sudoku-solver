@@ -1,5 +1,4 @@
-# import the necessary packages
-from modules.neural_network.neural_network import SudokuNet
+from modules.neural_network.neural_network import NetworkArchitecture
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.datasets import mnist
 from sklearn.preprocessing import LabelBinarizer
@@ -38,7 +37,7 @@ testLabels = le.transform(testLabels)
 # initialize the optimizer and model
 print("[INFO] compiling model...")
 opt = Adam(learning_rate=INIT_LR)
-model = SudokuNet.build(width=28, height=28, depth=1, classes=9)
+model = NetworkArchitecture.build(width=28, height=28, depth=1, classes=9)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
               metrics=["accuracy"])
 
